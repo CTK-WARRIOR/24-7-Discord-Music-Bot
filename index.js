@@ -1,8 +1,8 @@
-const { TOKEN, CHANNEL, SERVER, STATUS, LIVE } = require("./config.json");
+const { CHANNEL, SERVER, STATUS, LIVE } = require("./config.json");
 const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
-
+const TOKEN = process.env.token // Prevents people from stealing your token
 client.on('ready', async () => {
   client.user.setActivity(STATUS + " 😎")
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
