@@ -9,7 +9,7 @@ client.on('ready', async () => {
   client.user.setActivity(STATUS + " 😎")
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
 
-  broadcast = bot.voice.createBroadcast();
+  broadcast = client.voice.createBroadcast();
   // Play the radio
   broadcast.play(await ytdl(LIVE));
   // Make interval so radio will automatically recommect to YT every 30 minute because YT will change the raw url every 30m/1 Hour
