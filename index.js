@@ -1,4 +1,4 @@
-const { TOKEN, CHANNEL, SERVER, STATUS, LIVE } = require("./config.json");
+const { TOKEN, CHANNEL, STATUS, LIVE } = require("./config.json");
 const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
@@ -6,9 +6,13 @@ var broadcast = null;
 var interval = null;
 
 client.on('ready', async () => {
-  client.user.setActivity(STATUS || "Radio")
+  client.user.setActivity(STATUS || "Radio");
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
 
+  if (!channel) {
+    console.log("The provided channel ID is not exist, or i don't have permission to view that channel. Because that, I'm aborting now.");
+    return process.exit(1);
+  }
   broadcast = client.voice.createBroadcast();
   // Play the radio
   stream = await ytdl(LIVE);
@@ -27,11 +31,11 @@ client.on('ready', async () => {
   if(!channel) return;
   const connection = await channel.join();
   connection.play(broadcast)
-})
+});
 
 setInterval(async function() {
-  if(!client.voice.connections.get(SERVER)) {
-    let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
+  if(!client.voice.connections.size) {
+    let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL);
     if(!channel) return;
 
     const connection = await channel.join()
