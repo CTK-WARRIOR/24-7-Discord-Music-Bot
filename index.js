@@ -6,17 +6,21 @@ var broadcast = null;
 var interval = null;
 
 client.on('ready', async () => {
-  client.user.setActivity(STATUS + " 😎")
+  client.user.setActivity(STATUS || "Radio")
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
 
   broadcast = client.voice.createBroadcast();
   // Play the radio
-  broadcast.play(await ytdl(LIVE));
-  // Make interval so radio will automatically recommect to YT every 30 minute because YT will change the raw url every 30m/1 Hour
+  stream = await ytdl(LIVE);
+  stream.on('error', console.error);
+  broadcast.play(stream);
+  // Make interval so radio will automatically reconnect to YT every 30 minute because YT will change the raw url every 30m/1 Hour
   if (!interval) {
     interval = setInterval(async function() {
       try {
-       await broadcast.play( ytdl(LIVE, { highWaterMark: 100 << 150 }))
+       stream = await ytdl(LIVE, { highWaterMark: 100 << 150 });
+       stream.on('error', console.error);
+       broadcast.play(stream);
       } catch (e) { return }
     }, 1800000)
   }
@@ -36,3 +40,5 @@ setInterval(async function() {
 }, 20000)
 
 client.login(TOKEN) //Login
+
+process.on('unhandleRejection', console.error);
