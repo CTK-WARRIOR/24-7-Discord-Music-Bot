@@ -28,20 +28,26 @@ client.on('ready', async () => {
       } catch (e) { return }
     }, 1800000)
   }
-  if(!channel) return;
-  const connection = await channel.join();
-  connection.play(broadcast)
+  try {
+    const connection = await channel.join();
+    connection.play(broadcast);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 setInterval(async function() {
   if(!client.voice.connections.size) {
     let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL);
     if(!channel) return;
-
-    const connection = await channel.join()
-    connection.play(broadcast)
+    try { 
+      const connection = await channel.join();
+      connection.play(broadcast);
+    } catch (error) {
+      console.error(error);
+    }
   }
-}, 20000)
+}, 20000);
 
 client.login(TOKEN) //Login
 
