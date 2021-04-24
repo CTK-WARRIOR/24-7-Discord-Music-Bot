@@ -13,8 +13,13 @@ client.on('ready', async () => {
   // Play the radio
   broadcast.play(await ytdl(LIVE));
   // Make interval so radio will automatically recommect to YT every 30 minute because YT will change the raw url every 30m/1 Hour
-  if (!interval) interval = setInterval(broadcast.play, 1800000, ytdl(LIVE));
-
+  if (!interval) {
+    interval = setInterval(async function() {
+      try {
+       await broadcast.play( ytdl(LIVE, { highWaterMark: 100 << 150 }))
+      } catch (e) { return }
+    }, 1800000)
+  }
   if(!channel) return;
   const connection = await channel.join();
   connection.play(broadcast)
