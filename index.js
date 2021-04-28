@@ -2,8 +2,8 @@ const { TOKEN, CHANNEL, STATUS, LIVE } = require("./config.json");
 const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
-var broadcast = null;
-var interval = null;
+let broadcast = null;
+let interval = null;
 
 if (!TOKEN) {
   console.error("Press provide a valid Discord Bot Token.");
@@ -20,7 +20,7 @@ client.on('ready', async () => {
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
 
   if (!channel) {
-    console.error("The provided channel ID is not exist, or i don't have permission to view that channel. Because of that, I'm aborting now.");
+    console.error("The provided channel ID doesn't exist, or I don't have permission to view that channel. Because of that, I'm aborting now.");
     return process.exit(1);
   } else if (channel.type !== "voice") {
     console.error("The provided channel ID is NOT voice channel. Because of that, I'm aborting now.");
@@ -64,4 +64,4 @@ setInterval(async function() {
 
 client.login(TOKEN) //Login
 
-process.on('unhandleRejection', console.error);
+process.on('unhandledRejection', console.error);
