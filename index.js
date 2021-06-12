@@ -6,15 +6,16 @@ let broadcast = null;
 let interval = null;
 
 if (!TOKEN) {
-  console.error("Press provide a valid Discord Bot Token.");
+  console.error("Please provide a valid Discord Bot Token.");
   return process.exit(1);
 } else if (!CHANNEL || Number(CHANNEL) == NaN) {
   console.log("Please provide a valid channel ID.");
   return process.exit(1);
-} else if (!LIVE) {
+} else if (!ytdl.validateURL(LIVE)) {
   console.log("Please provide a valid Youtube URL.");
   return process.exit(1);
 }
+
 client.on('ready', async () => {
   client.user.setActivity(STATUS || "Radio");
   let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
@@ -28,14 +29,15 @@ client.on('ready', async () => {
   }
   broadcast = client.voice.createBroadcast();
   // Play the radio
-  stream = await ytdl(LIVE);
+  stream = ytdl(LIVE);
   stream.on('error', console.error);
   broadcast.play(stream);
   // Make interval so radio will automatically reconnect to YT every 30 minute because YT will change the raw url every 30m/1 Hour
   if (!interval) {
     interval = setInterval(async function() {
       try {
-       stream = await ytdl(LIVE, { highWaterMark: 100 << 150 });
+       if (stream && !stream.ended) stream.destroy();
+       stream = ytdl(LIVE, { highWaterMark: 100 << 150 });
        stream.on('error', console.error);
        broadcast.play(stream);
       } catch (e) { return }
