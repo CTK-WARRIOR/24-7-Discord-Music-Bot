@@ -7,13 +7,13 @@ let interval = null;
 
 if (!TOKEN) {
   console.error("Please provide a valid Discord Bot Token.");
-  return process.exit(1);
+  process.exit(1);
 } else if (!CHANNEL || Number(CHANNEL) == NaN) {
   console.log("Please provide a valid channel ID.");
-  return process.exit(1);
+  process.exit(1);
 } else if (!ytdl.validateURL(LIVE)) {
   console.log("Please provide a valid Youtube URL.");
-  return process.exit(1);
+  process.exit(1);
 }
 
 client.on('ready', async () => {
@@ -22,10 +22,10 @@ client.on('ready', async () => {
 
   if (!channel) {
     console.error("The provided channel ID doesn't exist, or I don't have permission to view that channel. Because of that, I'm aborting now.");
-    return process.exit(1);
+    process.exit(1);
   } else if (channel.type !== "voice") {
     console.error("The provided channel ID is NOT voice channel. Because of that, I'm aborting now.");
-    return process.exit(1);
+    process.exit(1);
   }
   broadcast = client.voice.createBroadcast();
   // Play the radio
