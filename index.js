@@ -23,7 +23,8 @@ if (!TOKEN) {
   process.exit(1);
 }
 
-client.login(TOKEN); //Login
+// login
+client.login(TOKEN).then(console.log(`Successfully logged in as: ${client.user.tag}`))
 
 // run events loader and node events handler functions
 loadEvents(client, process);
