@@ -24,7 +24,9 @@ if (!TOKEN) {
 }
 
 // login
-client.login(TOKEN).then(console.log(`Successfully logged in as: ${client.user.tag}`))
+client.login(TOKEN).then(() => {
+  console.log(` Successfully logged in as: ${client.user.username}#${client.user.discriminator}`);
+})
 
 // run events loader and node events handler functions
 loadEvents(client, process);
