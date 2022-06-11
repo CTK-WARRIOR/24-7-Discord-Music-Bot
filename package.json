@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon --exec 'npm start'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,7 +14,10 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.5.1",
+    "express": "^4.18.1",
     "ffmpeg-static": "^4.2.7",
+    "fs": "0.0.1-security",
+    "nodemon": "^2.0.16",
     "ytdl-core": "^4.1.0"
   }
 }
