@@ -22,7 +22,7 @@ if (!TOKEN) {
   console.log("Please provide a valid Youtube URL.");
   process.exit(1);
 }
-
+require('./server')();
 // login
 client.login(TOKEN).then(() => {
   console.log(` Successfully logged in as: ${client.user.username}#${client.user.discriminator}`);
