@@ -1,5 +1,5 @@
 // import config files
-const { TOKEN, CHANNEL, LIVE } = require("./config.json");
+const { CHANNEL, LIVE } = require("./config.json");
 const ytdl = require("ytdl-core");
 
 // import events loader and node event handler functions
@@ -10,7 +10,7 @@ const { loadNode } = require("./utility/loadNode");
 const { Client } = require("discord.js");
 
 const client = new Client();
-
+const TOKEN = process.env['TOKEN']
 // error if no token provided, and error if channel id and yt url aren't valid
 if (!TOKEN) {
   console.error("Please provide a valid Discord Bot Token.");
